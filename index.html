@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DatasetDoctor — Audit your ML dataset before you trust your model</title>
+<meta name="description" content="DatasetDoctor is a local-first forensic auditor for tabular ML datasets, experiment integrity, repair, robustness and synthetic-data trust.">
+<style>
+:root{--bg:#0f1218;--surface:#171c25;--ink:#f2f4f8;--muted:#aeb7c6;--line:#2b3443;--accent:#8572ff;--soft:#211d3f;--ok:#6bd5a1}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}a{color:inherit}.wrap{max-width:1160px;margin:auto;padding:0 24px}.nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}.brand{font-weight:800}.badge{font-size:12px;color:#d9d1ff;background:var(--soft);padding:5px 9px;border-radius:999px;margin-left:8px}.hero{padding:72px 0 50px;display:grid;grid-template-columns:1.02fr .98fr;gap:42px;align-items:center}.kicker{color:#b9afff;text-transform:uppercase;font-size:12px;letter-spacing:.16em;font-weight:800}.hero h1{font-size:52px;line-height:1.05;margin:14px 0 18px;letter-spacing:-.03em}.hero p{font-size:19px;color:var(--muted)}.actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}.btn{display:inline-block;text-decoration:none;padding:12px 18px;border-radius:11px;font-weight:750;border:1px solid var(--line)}.primary{background:var(--accent);border-color:var(--accent);color:white}.secondary{background:var(--surface)}.shot{border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 22px 80px rgba(0,0,0,.28)}.shot img{display:block;width:100%}.section{padding:54px 0}.section h2{font-size:34px;margin:0 0 12px}.lead{color:var(--muted);max-width:830px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}.card h3{margin:0 0 8px;font-size:18px}.card p{margin:0;color:var(--muted)}.proof{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}.metric{background:var(--surface);border:1px solid var(--line);padding:18px;border-radius:14px}.metric b{font-size:27px;display:block}.metric span{color:var(--muted);font-size:13px}.note{background:var(--soft);border:1px solid #393160;border-radius:16px;padding:20px;margin-top:24px}.footer{padding:40px 0 60px;color:var(--muted);border-top:1px solid var(--line)}@media(max-width:850px){.hero{grid-template-columns:1fr}.hero h1{font-size:42px}.grid,.proof{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="nav"><div class="brand">DatasetDoctor <span class="badge">Public Beta 1.8.7</span></div><div>Local-first ML dataset auditing</div></div></div>
+<div class="wrap hero">
+<div><div class="kicker">Dataset forensics before model trust</div><h1>Your model score might be lying. DatasetDoctor tells you why.</h1><p>Audit tabular classification datasets for leakage risk, split sensitivity, unsafe repairs, robustness, synthetic-data trust and dataset regressions, locally on your Windows machine.</p><div class="actions"><a class="btn primary" href="YOUR_DOWNLOAD_URL">Download Windows Beta</a><a class="btn secondary" href="GETTING_STARTED_URL">Getting Started</a></div><div class="note"><b>Local by default.</b> Raw datasets stay on the machine. No DatasetDoctor analytics client is included. Optional update checks retrieve release metadata only.</div></div>
+<div class="shot"><img src="assets/live-progress.png" alt="DatasetDoctor live analysis progress"></div>
+</div>
+<div class="wrap section"><h2>Not another profiler</h2><p class="lead">DatasetDoctor focuses on whether the dataset and evaluation design deserve to be trusted, then turns findings into reviewable actions.</p><div class="grid">
+<div class="card"><h3>Experiment Integrity</h3><p>Compare random evaluation with chronological, forward, group-aware or cautious row-order sensitivity checks.</p></div>
+<div class="card"><h3>Leakage & Association</h3><p>Separate direct leakage from identifier, temporal and provenance risks instead of treating every strong predictor as leakage.</p></div>
+<div class="card"><h3>Repair Lab</h3><p>Preview repairs, compare before/after behavior and export without modifying the original dataset.</p></div>
+<div class="card"><h3>Stress Test</h3><p>Measure degradation under missingness, numeric noise, feature loss and prior shift.</p></div>
+<div class="card"><h3>Synthetic Trust</h3><p>Evaluate fidelity, downstream utility, diversity, class preservation and privacy-screening signals.</p></div>
+<div class="card"><h3>Dataset Contract / CI</h3><p>Turn approved schema and quality assumptions into machine-readable checks for future dataset versions.</p></div>
+</div></div>
+<div class="wrap section"><h2>Validated on very different tabular datasets</h2><p class="lead">The beta has been exercised on industrial process, Wi-Fi, census-income, fraud-detection and synthetic-data comparisons, including datasets from tens of thousands to more than fifteen million rows.</p><div class="proof"><div class="metric"><b>Local-first</b><span>Raw dataset processing stays on the user's machine.</span></div><div class="metric"><b>Background jobs</b><span>Navigate while long analyses continue and receive completion notifications.</span></div><div class="metric"><b>Disclosed sampling</b><span>Reports state when expensive checks use bounded workloads.</span></div></div></div>
+<div class="wrap footer">Validated beta scope: tabular supervised classification dataset and experiment auditing. Findings are diagnostic evidence, not causal, privacy, safety or regulatory certification.</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+﻿{
+    "version":  "1.8.7",
+    "channel":  "beta",
+    "installer_url":  "https://github.com/kostas-kmp/datasetdoctor-releases/releases/download/v1.8.7/DatasetDoctor-Setup-1.8.7-beta.exe",
+    "sha256":  "a60e8ee0877567c79e078f729f38750246e0de7899bcf57852eb1de2f93deaa8",
+    "published_at":  "2026-10-01T16:48:22Z",
+    "notes":  "DatasetDoctor 1.8.7 Public Beta.",
+    "notes_url":  "",
+    "mandatory":  false
+}

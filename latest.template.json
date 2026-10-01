@@ -1,0 +1,10 @@
+{
+  "version": "1.8.8",
+  "channel": "beta",
+  "installer_url": "https://YOUR_DOWNLOAD_URL/DatasetDoctor-Setup-1.8.8-beta.exe",
+  "sha256": "REPLACE_WITH_64_CHARACTER_SHA256",
+  "published_at": "2026-10-01T12:00:00Z",
+  "notes": "Short release summary shown in DatasetDoctor Settings & Updates.",
+  "notes_url": "",
+  "mandatory": false
+}
