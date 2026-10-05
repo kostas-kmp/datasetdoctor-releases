@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DatasetDoctor 1.9 Account Test</title>
+<style>
+:root{--bg:#0f1218;--surface:#171c25;--ink:#f2f4f8;--muted:#aeb7c6;--line:#2b3443;--accent:#8572ff;--ok:#6bd5a1;--bad:#ff8080}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}.wrap{max-width:920px;margin:0 auto;padding:38px 24px}h1{margin:0 0 8px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}label{display:block;margin:12px 0 5px;color:var(--muted);font-size:13px}input{width:100%;padding:11px;border-radius:9px;border:1px solid var(--line);background:#10151d;color:var(--ink)}button{margin-top:14px;padding:11px 15px;border:0;border-radius:9px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}button.secondary{background:#252d3a}.msg{margin-top:18px;padding:13px 15px;border-radius:10px;background:#202735}.ok{border-left:4px solid var(--ok)}.bad{border-left:4px solid var(--bad)}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#10151d;border-radius:10px;padding:14px}.hidden{display:none}.top{display:flex;justify-content:space-between;align-items:center;gap:16px}.badge{font-size:12px;padding:5px 8px;border-radius:999px;background:#211d3f;color:#d9d1ff}@media(max-width:720px){.grid{grid-template-columns:1fr}}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div><div class="badge">DatasetDoctor 1.9 development</div><h1>Account foundation test</h1><p class="muted">Tests the real Supabase account, profile trigger and Row Level Security. No dataset is uploaded.</p></div><a href="./" style="color:#c9c1ff">Public site</a></div>
+
+  <div id="auth" class="grid">
+    <div class="card">
+      <h2>Create account</h2>
+      <label>Name</label><input id="signupName" autocomplete="name">
+      <label>Email</label><input id="signupEmail" type="email" autocomplete="email">
+      <label>Password</label><input id="signupPassword" type="password" autocomplete="new-password">
+      <button id="signup">Create DatasetDoctor account</button>
+    </div>
+    <div class="card">
+      <h2>Sign in</h2>
+      <label>Email</label><input id="signinEmail" type="email" autocomplete="email">
+      <label>Password</label><input id="signinPassword" type="password" autocomplete="current-password">
+      <button id="signin">Sign in</button>
+    </div>
+  </div>
+
+  <div id="dashboard" class="card hidden" style="margin-top:26px">
+    <div class="top"><div><h2 style="margin-bottom:4px">Signed in</h2><div id="who" class="muted"></div></div><button id="signout" class="secondary">Sign out</button></div>
+    <h3>Foundation checks</h3>
+    <pre id="checks">Checking...</pre>
+  </div>
+
+  <div id="message" class="msg hidden"></div>
+</div>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+const SUPABASE_URL='https://sozksumqqphqirqkbbnz.supabase.co';
+const SUPABASE_KEY='sb_publishable_AcUom1jnsMdAbcR5Yvy9OQ_NJ7Zuj7L';
+const supabase=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{flowType:'pkce',persistSession:true,detectSessionInUrl:true}});
+const redirectTo=window.location.origin+window.location.pathname;
+const auth=document.querySelector('#auth');
+const dashboard=document.querySelector('#dashboard');
+const message=document.querySelector('#message');
+function msg(text,error=false){message.textContent=text;message.className='msg '+(error?'bad':'ok');}
+function clearMsg(){message.className='msg hidden';message.textContent='';}
+async function render(session){
+  clearMsg();
+  if(!session){auth.classList.remove('hidden');dashboard.classList.add('hidden');return;}
+  auth.classList.add('hidden');dashboard.classList.remove('hidden');
+  const u=session.user; document.querySelector('#who').textContent=`${u.email} · ${u.id}`;
+  const [p,pr]=await Promise.all([
+    supabase.from('profiles').select('id,display_name,created_at').eq('id',u.id).maybeSingle(),
+    supabase.from('user_preferences').select('user_id,theme,default_mode,default_preset').eq('user_id',u.id).maybeSingle()
+  ]);
+  const checks={
+    auth_session:'PASS',
+    user_id:u.id,
+    email:u.email,
+    profile_trigger:p.error?`FAIL: ${p.error.message}`:(p.data?'PASS':'FAIL: no profile row'),
+    profile:p.data||null,
+    preferences_trigger:pr.error?`FAIL: ${pr.error.message}`:(pr.data?'PASS':'FAIL: no preferences row'),
+    preferences:pr.data||null,
+    raw_dataset_uploaded:false
+  };
+  document.querySelector('#checks').textContent=JSON.stringify(checks,null,2);
+}
+
+document.querySelector('#signup').onclick=async()=>{
+  clearMsg();
+  const email=document.querySelector('#signupEmail').value.trim();
+  const password=document.querySelector('#signupPassword').value;
+  const display_name=document.querySelector('#signupName').value.trim();
+  const {data,error}=await supabase.auth.signUp({email,password,options:{data:{display_name},emailRedirectTo:redirectTo}});
+  if(error)return msg(error.message,true);
+  if(!data.session)msg('Account created. Check your email and click the confirmation link. Then return here and sign in.');
+  else msg('Account created and signed in.');
+};
+document.querySelector('#signin').onclick=async()=>{
+  clearMsg();
+  const email=document.querySelector('#signinEmail').value.trim();
+  const password=document.querySelector('#signinPassword').value;
+  const {error}=await supabase.auth.signInWithPassword({email,password});
+  if(error)msg(error.message,true);
+};
+document.querySelector('#signout').onclick=async()=>{await supabase.auth.signOut();};
+supabase.auth.onAuthStateChange((_event,session)=>render(session));
+const {data}=await supabase.auth.getSession();
+render(data.session);
+</script>
+</body>
+</html>
